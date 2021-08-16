@@ -11,14 +11,4 @@ def home():
     else:
         pass
 
-@app.route("/pay", methods=["POST"])
-def pay():
-    pass
-
-@app.route("/bill", methods=["POST"])
-def bill():
-    pass
-
-@app.route("/invoice", methods=["POST"])
-def invoice():
-    pass
+from app.routes import payment_routes
