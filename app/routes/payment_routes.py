@@ -1,8 +1,8 @@
 from app import app
 import requests, json
 from flask import request, render_template, redirect, url_for
-from app.utils.utils import generate_sign
-from app.utils.secret import secret_key, shop_id, payway
+from app.utils.generate_sign import generate_sign
+from app.utils.params import secret_key, shop_id, payway
 from app.models.payment import Payment
 from datetime import datetime
 
