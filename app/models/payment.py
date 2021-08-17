@@ -14,3 +14,7 @@ class Payment(db.Model):
         self.amount = amount
         self.timestamp = timestamp
         self.description = description
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
