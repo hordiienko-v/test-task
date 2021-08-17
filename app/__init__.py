@@ -3,7 +3,9 @@ from flask import redirect
 import os
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = 'secret'
+app.config["SECRET_KEY"] = os.environ.get("flask_secret", "secret")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE", "sqlite:///data.db")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 @app.route("/", methods=["GET"])
 def home():
@@ -12,3 +14,4 @@ def home():
     return render_template("index.html", error=error)
 
 from app.routes import payment_routes
+from app.models.payment import Payment
