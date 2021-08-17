@@ -12,7 +12,7 @@
         <div class="card column is-4 is-offset-4">
           <form id="submit-form" method="post" action="/pay">
             <div class="level field">
-              <input class="input" type="number" name="amount" min="0" step="0.1" placeholder="Enter amount" required>
+              <input class="input" type="number" name="amount" min="0" placeholder="Enter amount" required>
               <div class="select">
                 <select name="currency" id="currency" form="submit-form">
                   <option value="978">EUR</option>
@@ -50,7 +50,6 @@
               submit_form.action = "/invoice";
               break;
           }
-          submit_form.submit();
         });
       });
     </script>
