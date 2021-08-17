@@ -42,4 +42,35 @@ def bill():
 
 @app.route("/invoice", methods=["POST"])
 def invoice():
-    pass
+    data = request.form.to_dict()
+    data["amount"] = format(float(data["amount"]),".2f")
+
+    params = data.copy()
+
+    sign = generate_sign(secret_key, shop_id=shop_id, amount=data["amount"],
+        currency=data["currency"], shop_order_id="1", payway=payway)
+
+    params["sign"] = sign
+    params["payway"] = payway
+    params["shop_id"] = shop_id
+    params["shop_order_id"] = "1"
+
+    headers = {"Content-Type": "application/json"}
+    # payload = {
+    #     "currency": data["currency"],
+    #     "payway": payway,
+    #     "amount": data["amount"],
+    #     "shop_id": shop_id,
+    #     "shop_order_id": "1",
+    #     "description": data["description"],
+    #     "sign": sign
+    # }
+    session = requests.Session()
+    response = session.post("https://core.piastrix.com/invoice/create", headers=headers, data=json.dumps(params))
+    print(response.json())
+    json_data = response.json()["data"]
+    inner_data = json_data["data"]
+    # return render_template("invoice.html", url=json_data["url"], ac_account_email=inner_data["ac_account_email"],
+    #     ac_amount=inner_data["ac_amount"], ac_currency=inner_data["ac_currency"], ac_order_id=inner_data["ac_order_id"],
+    #     ac_sci_name=inner_data["ac_sci_name"])
+    return render_template("invoice.html", url=json_data["url"], method=json_data["method"], params=inner_data)

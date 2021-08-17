@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>invoice</title>
+  </head>
+  <body>
+    <form name="pay" id="pay-form" action="{{url}}" method="{{method}}"
+      accept-charset="UTF-8">
+      {% for key, value in params.items() %}
+        <input type="hidden" name="{{key}}" value="{{value}}"/>
+      {% endfor %}
+      <input type="submit" hidden/>
+    </form>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("pay-form").submit();
+      });
+    </script>
+  </body>
+</html>
