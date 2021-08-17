@@ -1,6 +1,6 @@
 from app import app
 import requests, json
-from flask import request, render_template, redirect
+from flask import request, render_template, redirect, url_for
 from app.utils.utils import generate_sign
 from app.utils.secret import secret_key, shop_id, payway
 
@@ -41,12 +41,13 @@ def bill():
     }
     session = requests.Session()
     response = session.post("https://core.piastrix.com/bill/create", headers=headers, data=json.dumps(payload))
+    response_json = response.json()
 
-    if response.json()["message"] == "Ok":
-        json_data = response.json()["data"]
+    if response_json["result"] == True:
+        json_data = response_json["data"]
         return redirect(json_data["url"])
     else:
-        pass
+        return redirect("/?error={}".format(response_json["message"]))
 
 @app.route("/invoice", methods=["POST"])
 def invoice():
@@ -71,12 +72,13 @@ def invoice():
 
     session = requests.Session()
     response = session.post("https://core.piastrix.com/invoice/create", headers=headers, data=json.dumps(payload))
+    response_json = response.json()
 
-    print(response.json())
-    if response.json()["message"] == "Ok":
-        json_data = response.json()["data"]
+    print(response.json()["message"])
+    if response_json["result"] == True:
+        json_data = response_json["data"]
         inner_data = json_data["data"]
 
         return render_template("invoice.html", url=json_data["url"], method=json_data["method"], params=inner_data)
     else:
-        pass
+        return redirect("/?error={}".format(response_json["message"]))

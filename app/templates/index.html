@@ -24,7 +24,11 @@
             <div class="field">
               <textarea class="textarea" name="description" rows="3" cols="80" placeholder="Enter description"></textarea>
             </div>
-
+            {% if error %}
+              <div class="tags is-centered is-marginless">
+                <span class="tag is-danger is-light">{{error}}</span>
+              </div>
+            {% endif %}
             <div class="field has-text-centered">
               <button class="button is-primary" type="submit" id="submit-button">Pay</button>
             </div>
