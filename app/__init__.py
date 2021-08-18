@@ -13,7 +13,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 @app.route("/", methods=["GET"])
 def home():
     error = request.args.get("error")
-
     return render_template("index.html", error=error)
 
 from app.routes import payment_routes
