@@ -1,8 +1,14 @@
 from flask import Flask, request, render_template
 from flask import redirect
+import logging
 import os
 
+
 app = Flask(__name__)
+
+gunicorn_logger = logging.getLogger("gunicorn.info")
+app.logger.handlers = gunicorn_logger.handlers
+app.logger.setLevel(gunicorn_logger.level)
 app.config["SECRET_KEY"] = os.environ.get("flask_secret", "secret")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE", "sqlite:///data.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
