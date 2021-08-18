@@ -113,7 +113,7 @@ def invoice():
     session = requests.Session()
     response = session.post("https://core.piastrix.com/invoice/create", headers=headers, data=json.dumps(payload))
     response_json = response.json()
-    logger.info("method=bill, RESPONSE, data={}".format(response_json))
+    logger.info("method=invoice, RESPONSE, data={}".format(response_json))
     # checking response state
     if response_json["result"] == True:
         payment = Payment(currency, amount, datetime.now(), description)
@@ -125,7 +125,7 @@ def invoice():
             return redirect("/?error=Something+wrong")
         json_data = response_json["data"]
         inner_data = json_data["data"]
-        # returning a form with autosubmitting 
+        # returning a form with autosubmitting
         return render_template("invoice.html", url=json_data["url"], method=json_data["method"], params=inner_data)
     else:
         logger.error("method=invoice, data={}".format(response_json))
